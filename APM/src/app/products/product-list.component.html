@@ -6,22 +6,21 @@
     <div class='row'>
       <div class='col-md-2'>Filter by:</div>
       <div class='col-md-4'>
-        <input type='text' />
+        <input type='text' [(ngModel)] = 'listFilter'/> <!-- Two Way Binding using [(ngModel)] directive -->
       </div>
     </div>
     <div class='row'>
       <div class='col-md-6'>
-        <h4>Filtered by: </h4>
+        <h4>Filtered by: {{listFilter}} </h4>
       </div>
     </div>
     <div class='table-responsive'>
-      <table class='table'
-             *ngIf='products.length'>
+      <table class='table' *ngIf='products.length'>
         <thead>
           <tr>
             <th>
-              <button class='btn btn-primary'>
-                Show Image
+              <button class='btn btn-primary' (click)="toggleImage()"> <!-- (Event Binding) -->
+                {{showImage == true ? 'Hide' : 'Show'}} Image
               </button>
             </th>
             <th>Product</th>
@@ -32,13 +31,32 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor='let product of products'>
-            <td></td>
-            <td>{{ product.productName }}</td>
-            <td>{{ product.productCode }}</td>
-            <td>{{ product.releaseDate }}</td>
-            <td>{{ product.price }}</td>
-            <td>{{ product.starRating }}</td>
+          <tr *ngFor='let product of filteredProducts; let i = index'>
+            <td>
+              #{{i + 1}} &nbsp;&nbsp;
+              <img 
+                *ngIf='showImage == true'
+                [src] = 'product.imageUrl'
+                [title] = 'product.productName' 
+                [style.width.px] = 'imageWidth'
+                [style.margin.px] = 'imageMargin'
+                height = "55"
+              /> <!-- [Property Binding] -->
+            </td>
+            <td>{{ product.productName }}</td> <!-- {{Data Binding/Interpolation}} -->
+            <td>{{ product.productCode  | convertToSpaces: '-' | uppercase}}</td> <!-- Custom Pipes chained with another pipe -->
+            <td>{{ product.releaseDate  | date: 'dd/MM/yyyy'}}</td> <!-- Pipes -->
+            <td>{{ product.price        | currency: 'USD' }}</td> <!-- Pipes -->
+            <td>
+              <!--{{ product.starRating }}-->
+              <pm-star 
+                [rating]='product.starRating' 
+                (ratingClicked)="onRatingClicked($event)"
+              >
+              <!-- Use [property binding] + input decorator to pass values to nested components (e.g. ProductListComponent pass rating to StarComponent) -->
+              <!-- Use (event binding) + output decorator to pass values from nested components to containing components -->
+              </pm-star> 
+            </td>
           </tr>
         </tbody>
       </table>
@@ -47,3 +65,9 @@
   </div>
 
 </div>
+
+<!--
+  foreach product in products
+  *ngFor="let product of products"
+
+-->

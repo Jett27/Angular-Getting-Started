@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'pm-root',
@@ -8,6 +8,10 @@ import { Component } from '@angular/core';
   </div>
   `
 })
-export class AppComponent {
+export class AppComponent implements OnInit { /* OnInit is a Lifecycle Hook */
   pageTitle: string = 'Acme Product Management';
+
+  ngOnInit(): void {
+    console.log('AppComponent Initaliazed');
+  }
 }
