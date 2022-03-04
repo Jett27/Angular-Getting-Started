@@ -43,7 +43,11 @@
                 height = "55"
               /> <!-- [Property Binding] -->
             </td>
-            <td>{{ product.productName }}</td> <!-- {{Data Binding/Interpolation}} -->
+            <td>
+              <a [routerLink]="['/products', product.productId]">
+                {{ product.productName }} <!-- {{Data Binding/Interpolation}} -->
+              </a>
+            </td> 
             <td>{{ product.productCode  | convertToSpaces: '-' | uppercase}}</td> <!-- Custom Pipes chained with another pipe -->
             <td>{{ product.releaseDate  | date: 'dd/MM/yyyy'}}</td> <!-- Pipes -->
             <td>{{ product.price        | currency: 'USD' }}</td> <!-- Pipes -->

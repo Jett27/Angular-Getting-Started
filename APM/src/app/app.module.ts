@@ -10,6 +10,7 @@ import { StarComponent } from './shared/star.component';
 import { ProductDetailComponent } from './products/product-detail/product-detail.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { RouterModule } from '@angular/router';
+import { ProductDetailGuard } from './products/product-detail/product-detail.guard';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,11 @@ import { RouterModule } from '@angular/router';
     HttpClientModule, // For RxJS (Reactive Programming)/Observables (kinda like Awaitable/Tasks)
     RouterModule.forRoot([
       { path: 'products', component: ProductListComponent },
-      { path: 'products/:id', component: ProductDetailComponent },
+      { 
+        path: 'products/:id', 
+        component: ProductDetailComponent,
+        canActivate: [ ProductDetailGuard ] //Angular concept of "Route guards"; To check url parameters, limit people who access a page, etc.
+      },
       { path: 'welcome', component: WelcomeComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' }, // When application loads, we want to default to welcome component
       { path: '**', redirectTo: 'welcome', pathMatch: 'full' } // Wildcard path, when url does not match any prior paths, you can redirect to 404 page but here we can redirect to welcome page
