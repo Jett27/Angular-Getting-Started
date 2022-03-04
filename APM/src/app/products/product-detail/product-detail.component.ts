@@ -25,12 +25,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute, private dogService: DogService, private router: Router, private productService: ProductService) { }
 
   ngOnInit(): void {
-    this.sub = this.dogService.getDogImage().subscribe({
-      next: dogImageJSON => {
-        this.updateDogVariables(JSON.stringify(dogImageJSON));
-      }
-    });
-
+    this.getDoggy();
     this.id = Number(this.route.snapshot.paramMap.get('id')); // Get value from parameter 'id' at that certain point; If params change you need the subscribe method of doing this
     this.pageTitle += ' ID ' + this.id;
 
@@ -58,5 +53,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   onBack(): void {
     this.router.navigate(['/products']);
     //this.router.navigate(['/products', 67]); // Can you pass variables here?? yes!
+  }
+
+  getDoggy(): void{
+    this.sub = this.dogService.getDogImage().subscribe({
+      next: dogImageJSON => {
+        this.updateDogVariables(JSON.stringify(dogImageJSON));
+      }
+    });
   }
 }
