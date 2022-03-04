@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DogService } from 'src/app/dog/dog.service';
 import { IProduct } from '../product';
+import { ProductService } from '../product.service';
 
 @Component({
   //selector: 'pm-product-detail', //only required if we will nest the component; so comment muna
@@ -12,15 +13,16 @@ import { IProduct } from '../product';
 })
 export class ProductDetailComponent implements OnInit, OnDestroy {
   pageTitle: string | null = 'Product Detail'; // String or null data type; Nullable string
-  id: Number = 0; 
+  id: number = 0; 
   product: IProduct | undefined;
+  errorMessage: string = '';
 
 
   dogJSON!: string;   // ! means we are guaranteeing Typescript that we'll assign a value to this variable later (Quick Fix of VS Code) 
   dogURL!: string;
   sub!: Subscription; // ! means we are guaranteeing Typescript that we'll assign a value to this variable later (Quick Fix of VS Code) 
 
-  constructor(private route : ActivatedRoute, private dogService : DogService, private router: Router) { }
+  constructor(private route : ActivatedRoute, private dogService : DogService, private router: Router, private productService : ProductService) { }
 
   ngOnInit(): void {
     this.sub = this.dogService.getDogImage().subscribe({
@@ -30,17 +32,17 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     });
 
     this.id = Number(this.route.snapshot.paramMap.get('id')); // Get value from parameter 'id' at that certain point; If params change you need the subscribe method of doing this
-    this.pageTitle += ': ' + this.id;
-    this.product = {
-      "productId": 1,
-      "productName": "Leaf Rake",
-      "productCode": "GDN-0011",
-      "releaseDate": "March 19, 2021",
-      "description": "Leaf rake with 48-inch wooden handle.",
-      "price": 19.95,
-      "starRating": 3.2,
-      "imageUrl": "assets/images/leaf_rake.png"
-    }
+    this.pageTitle += ' ID ' + this.id;
+
+    this.productService.getProduct(this.id).subscribe({
+      next: product => {
+        this.product = product;
+      },
+      error: err => {
+        this.errorMessage = err;
+        console.log('Error: ' + this.errorMessage);
+      }
+    });
   }
 
   updateDogVariables(val: string): void{
