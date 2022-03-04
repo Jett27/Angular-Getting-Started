@@ -4,7 +4,7 @@ import { IProduct } from './product';
 import { ProductService } from './product.service';
 
 @Component({
-  selector: 'pm-products', 
+  // selector: 'pm-products', // Not needed because di na nested; we're using routes to display it yung <router-outlet>
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css'],
   providers: [ ProductService ] // dependency injection; so you can use ProductService class in this component
