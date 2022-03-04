@@ -9,11 +9,11 @@ import { ProductService } from '../product.service';
   //selector: 'pm-product-detail', //only required if we will nest the component; so comment muna
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css'],
-  providers: [ DogService ]
+  providers: [DogService]
 })
 export class ProductDetailComponent implements OnInit, OnDestroy {
   pageTitle: string | null = 'Product Detail'; // String or null data type; Nullable string
-  id: number = 0; 
+  id: number = 0;
   product: IProduct | undefined;
   errorMessage: string = '';
 
@@ -22,7 +22,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   dogURL!: string;
   sub!: Subscription; // ! means we are guaranteeing Typescript that we'll assign a value to this variable later (Quick Fix of VS Code) 
 
-  constructor(private route : ActivatedRoute, private dogService : DogService, private router: Router, private productService : ProductService) { }
+  constructor(private route: ActivatedRoute, private dogService: DogService, private router: Router, private productService: ProductService) { }
 
   ngOnInit(): void {
     this.sub = this.dogService.getDogImage().subscribe({
@@ -45,7 +45,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateDogVariables(val: string): void{
+  updateDogVariables(val: string): void {
     this.dogJSON = val;
     this.dogURL = JSON.parse(this.dogJSON)['message'];
     console.log('DOG URL: ' + this.dogURL);
@@ -56,7 +56,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   onBack(): void {
-    this.router.navigate(['/products']); 
+    this.router.navigate(['/products']);
     //this.router.navigate(['/products', 67]); // Can you pass variables here?? yes!
   }
 }
