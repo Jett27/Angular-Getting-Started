@@ -1,43 +1,39 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 
 import { AppComponent } from './app.component';
-import { ProductListComponent } from './products/product-list.component';
-import { ConvertToSpacesPipe } from './shared/convert-to-spaces.pipe';
-import { StarComponent } from './shared/star.component';
-import { ProductDetailComponent } from './products/product-detail/product-detail.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { RouterModule } from '@angular/router';
-import { ProductDetailGuard } from './products/product-detail/product-detail.guard';
+import { ProductModule } from './products/product.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductListComponent,
-    ConvertToSpacesPipe,
-    StarComponent,
-    ProductDetailComponent,
     WelcomeComponent
+    // ProductListComponent, -- Moved to Product Module
+    // ConvertToSpacesPipe,
+    // StarComponent,
+    // ProductDetailComponent,
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     HttpClientModule, // For RxJS (Reactive Programming)/Observables (kinda like Awaitable/Tasks)
     RouterModule.forRoot([
-      { path: 'products', component: ProductListComponent },
-      { 
-        path: 'products/:id', 
-        component: ProductDetailComponent,
-        canActivate: [ ProductDetailGuard ] //Angular concept of "Route guards"; To check url parameters, limit people who access a page, etc.
-      },
+      // { path: 'products', component: ProductListComponent },
+      // {
+      //   path: 'products/:id',
+      //   component: ProductDetailComponent,
+      //   canActivate: [ProductDetailGuard] //Angular concept of "Route guards"; To check url parameters, limit people who access a page, etc.
+      // },
       { path: 'welcome', component: WelcomeComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' }, // When application loads, we want to default to welcome component
       { path: '**', redirectTo: 'welcome', pathMatch: 'full' } // Wildcard path, when url does not match any prior paths, you can redirect to 404 page but here we can redirect to welcome page
-    ])
+    ]), 
+    ProductModule
+    // FormsModule, -- Moved to Product Module
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
 
